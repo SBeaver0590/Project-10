@@ -60,3 +60,55 @@ export default class CreateCourse extends Component {
         );
     };
 }
+
+change = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState(() => {
+            return {
+                [name]: value
+            }
+        });
+}
+
+submit = () => {
+        const { context } = this.props;
+        const {
+            title,
+
+            description,
+            estimatedTime,
+            materialsNeeded,
+ } = this.state;
+            
+        const course = {
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+};
+}
+//Authorize user and validate errors
+const authUser = context.authenticatedUser;
+        if (authUser == null) {
+            this.setState({ errors: [{message: "You have to be logged in to create a course"}] });
+            return;
+        }
+        context.data.createCourse(course, authUser.username, authUser.password)
+            .then(errors => {
+                if (errors.length) {
+                    this.setState({ errors: errors });
+                } else {
+                    this.setState({ errors: [] });
+                    this.props.history.push('/');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                this.props.history.push('/error');
+            });
+    }
+    cancel = () => {
+        this.props.history.push('/');
+    }
+}
