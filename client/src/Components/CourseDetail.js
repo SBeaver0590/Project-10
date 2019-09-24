@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ReactMarkDown from 'react-markdown';
 
 //Stateful Class Component
-class CourseDetail extends Component {
+export default class CourseDetail extends Component {
     constructor() {
         super();
         this.state = {
@@ -120,4 +120,21 @@ class CourseDetail extends Component {
     }
 }
 
-export default CourseDetail;
+//Display errors
+function ErrorsDisplay({ errors }) {
+    let errorsDisplay = null;
+    if (errors.length) {
+        errorsDisplay = (
+            <div>
+               <h2 className="validation--errors--label">Validation errors</h2>
+                <div className="validation-errors">
+                    <ul>
+                        {errors.map((error, i) => <li key={i}>{error.message}</li>)}
+                    </ul>
+               </div> 
+            </div> 
+        );
+    }
+    return errorsDisplay;
+}
+
