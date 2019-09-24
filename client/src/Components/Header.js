@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 
+//Stateless Component
 export default class Header extends React.PureComponent {
     render() {
         const { context } = this.props;

@@ -1,6 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import CourseForm from './CourseForm';
 
-class CreateCourse extends Component {
+export default class CreateCourse extends Component {
+    state = {
+        title: '',
+        
+    }
     render() {
         return (
             <div>
@@ -10,4 +16,3 @@ class CreateCourse extends Component {
     }
 }
 
-export default CreateCourse;
