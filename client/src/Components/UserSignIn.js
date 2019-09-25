@@ -1,46 +1,46 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Form from './Form';
+import form from './CourseForm';
 
 export default class UserSignIn extends Component {
   state = {
-      username: '',
-      password: '',
-      errors: [],
-    }
+    username: '',
+    password: '',
+    errors: [],
+  }
 
-    render() {
-        const{
-            username,
-            password,
-            errors,
-        } = this.state;
+  render() {
+    const {
+      username,
+      password,
+      errors,
+    } = this.state;
 
-        return (
+    return (
       <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign In</h1>
-          <Form 
+          <Form
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}
             submitButtonText="Sign In"
             elements={() => (
               <React.Fragment>
-                <input 
-                  id="username" 
-                  name="username" 
+                <input
+                  id="username"
+                  name="username"
                   type="text"
-                  value={username} 
-                  onChange={this.change} 
+                  value={username}
+                  onChange={this.change}
                   placeholder="User Name" />
-                <input 
-                  id="password" 
+                <input
+                  id="password"
                   name="password"
                   type="password"
-                  value={password} 
-                  onChange={this.change} 
-                  placeholder="Password" />                
+                  value={password}
+                  onChange={this.change}
+                  placeholder="Password" />
               </React.Fragment>
             )} />
           <p>
@@ -50,9 +50,9 @@ export default class UserSignIn extends Component {
       </div>
     );
   }
-}
 
-change = (event) => {
+
+  change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
 
@@ -72,7 +72,7 @@ change = (event) => {
       .then((user) => {
         if (user === null) {
           this.setState(() => {
-            return { errors: [ 'Sign-in was unsuccessful' ] };
+            return { errors: ['Sign-in was unsuccessful'] };
           });
         } else {
           this.props.history.push(from);
@@ -87,6 +87,6 @@ change = (event) => {
   cancel = () => {
     this.props.history.push('/');
   }
-
+}
 
 
