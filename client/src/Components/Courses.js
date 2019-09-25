@@ -21,7 +21,7 @@ export default class Courses extends Component {
             })
             .catch(error => {
                 console.log('Error fetching data', error);
-                if (error == 'Error: Request failed status code 500') {
+                if (error === 'Error: Request failed status code 500') {
                     window.location.href = '/error';
                 }
             });
@@ -30,7 +30,7 @@ export default class Courses extends Component {
     // Show html from example markup
     render() {
         let dataHtml = this.state.data.map(dataItem =>
-                        <div className="grid-33"><Link className="course--module course--add--module" to={`/courses/${dataItem.id}`}>
+                        <div className="grid-33"> <Link className="course--module course--link" to={`/courses/${dataItem.id}`}>
                             <h4 className="course--label">Course</h4>
                             <h3 className="course--title">{dataItem.title}</h3>
                         </Link></div>

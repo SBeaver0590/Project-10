@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+
 import CourseForm from './CourseForm';
 
 //Stateful class component
@@ -20,7 +20,7 @@ export default class CreateCourse extends Component {
             materialsNeeded,
             errors,
         } = this.state;
-        const { context } = this.props;
+        // const { context } = this.props;
         const authUser = {};
         return (
             <CourseForm

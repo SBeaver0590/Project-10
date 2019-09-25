@@ -30,7 +30,7 @@ class App extends Component {
             <Header signedIn={true} />
             <Switch>
               <Route exact path="/" component={Courses}/>
-              <PrivateRoute path='/courses/create' component={CreateCourse} />
+              <PrivateRoute path='/courses/create' component={withContext(CreateCourse)} />
               <PrivateRoute path='/courses/:id/update' component={UpdateCourse} /> 
               <Route path="/courses/create" component={CreateCourse} />
               <Route path="/courses/:id/update" render={ (props) => < UpdateCourse {...props} /> } />
