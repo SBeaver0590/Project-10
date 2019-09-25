@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Form from './Form';
+import CourseForm from './CourseForm';
 
 export default class UserSignUp extends Component {
   state = {
@@ -22,7 +22,7 @@ export default class UserSignUp extends Component {
       <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign Up</h1>
-          <Form 
+          <CourseForm 
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}

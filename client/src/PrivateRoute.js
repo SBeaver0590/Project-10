@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { Consumer } from './Context'
+import { Consumer } from './context'
 
 export default ({ component: Component, ...rest }) => {
     return (
