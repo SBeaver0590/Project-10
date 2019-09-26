@@ -23,7 +23,7 @@ export default class CourseDetail extends Component {
             })
             .catch(error => {
                 console.log('Error fetching data', error);
-                if (error == 'Error: Request failed with status code 404') {
+                if (error === 'Error: Request failed with status code 404') {
                     this.props.history.push('/notfound');
                     }
                     else {
@@ -45,7 +45,7 @@ export default class CourseDetail extends Component {
         if (window.confirm('Are you sure you want to delete this course?')) {
         context.data.deleteCourse(id, authUser.username, authUser.password)
             .then(error => {          
-                if (error.status == 403 || error.status == 404) {
+                if (error.status === 403 || error.status === 404) {
                     this.setState({ errors: [{message: error.message}] });
                 }
                 else {
@@ -77,7 +77,7 @@ export default class CourseDetail extends Component {
                 <div className="bounds">
                         <div className="grid-100">
                             {
-                                authUser && authUser.id == user.id ?  
+                                authUser && authUser.id === user.id ?  
                             <span>
                                 <Link className="button" to={`/courses/${course.id}/update/`} >Update Course</Link>
                                 <Link onClick={this.delete} className="button" to="#" >Delete Course</Link>

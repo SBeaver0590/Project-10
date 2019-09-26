@@ -1,8 +1,8 @@
-import config from './config';
+import config from './Config';
 
-export default class Data {   //Class usses fetch for functions to use API
+export default class Data {   //Class uses fetch for functions to use API
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
-    const url = config.apiBaseUrl + path;        //Link referencing config
+    const url = config.apiBaseUrl + path;      
   
     const options = {
       method,
