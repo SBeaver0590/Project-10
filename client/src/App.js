@@ -1,50 +1,66 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import React, { Component }  from 'react';         //Imports for all routes used
+import logo from './logo.svg';
+import './App.css';
+import { createCipher } from 'crypto';
+import axios from 'axios';
 
-import Header from './Components/Header';
-import Courses from './Components/Courses';
-import CourseDetail from './Components/CourseDetail';
-import UserSignIn from './Components/UserSignIn';
-import UserSignUp from './Components/UserSignUp';
-import CreateCourse from './Components/CreateCourse';
-import UpdateCourse from './Components/UpdateCourse';
-import UserSignOut from './Components/UserSignOut';
-import NotFound from './Components/NotFound';
-import withContext from './context';
-import PrivateRoute from './PrivateRoute';
-// import '../styles/global.css';
+import {BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 
+import Header from './components/Header';
+import Courses from './components/Courses';
+import CreateCourse from './components/CreateCourse';
+import CourseDetail from './components/CourseDetail';
+import UpdateCourse from './components/UpdateCourse';
+import withContext from './Context';
+import PrivateRoute from './PrivateRoute';                //HOC import
+import UserSignIn from './components/UserSignIn';
+import UserSignUp from './components/UserSignUp';
+import UserSignOut from './components/UserSignOut';
+import Forbidden from './components/Forbidden';
+import NotFound from './components/NotFound';
+import UnhandledError from './components/UnhandledError';
+
+const HeaderWithContext = withContext(Header);               //Defining routes being used
+const UserSignInWithContext = withContext(UserSignIn);
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignOutWithContext = withContext(UserSignOut);
+const CreateCourseWithContext = withContext(CreateCourse);
+const UpdateCourseWithContext = withContext(UpdateCourse);
+const CourseDetailWithContext = withContext(CourseDetail);
 
-class App extends Component {
 
-  signIn = (email,password) => {
-    alert(`email : ${email} , password : ${password}`);
-  }
+export default class App extends Component {               //Stateless component function
 
-  render () {
-    return (
-      <BrowserRouter>
-        <div id="root">
-          <div>
-            <Header signedIn={true} />
-            <Switch>
-              <Route exact path="/" component={Courses}/>
-              <PrivateRoute path='/courses/create' component={withContext(CreateCourse)} />
-              <PrivateRoute path='/courses/:id/update' component={UpdateCourse} /> 
-              <Route path="/courses/create" component={CreateCourse} />
-              <Route path="/courses/:id/update" render={ (props) => < UpdateCourse {...props} /> } />
-              <Route path="/courses/:id" component={CourseDetail} />
-              <Route path="/signin" render={ (props) => < UserSignIn {...props} signInUser={this.signIn} /> } />
-              <Route path="/signup" component={UserSignUpWithContext} />
-              <Route path="/signout" component={UserSignOut} />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-        </div>
-      </BrowserRouter>    
-    );
-  }
+    constructor() {
+        super();
+    }
+
+    componentDidMount() {  //Called after component to get data
+
+    }
+
+    render() {
+        
+        return (            //Routes set up for each task, private route for authentication, create & update courses
+            <Router>  
+                <div>
+                    <HeaderWithContext />
+
+                    <Switch>
+                        <Route exact path="/" component={Courses} />
+                        <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
+                        <Route exact path="/courses/:id" component={CourseDetailWithContext} />
+                        <Route path="/signin" component={UserSignInWithContext} />
+                        <Route path="/signup" component={UserSignUpWithContext} />
+                        <Route path="/signout" component={UserSignOutWithContext} />
+                        <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
+                        <Route path="/forbidden" component={Forbidden} />
+                        <Route path="/error" component={UnhandledError} />
+                        <Route path="/notfound" component={NotFound} /> 
+                        <Route component={NotFound} />
+                    </Switch>
+                </div>
+            </Router>
+        );
+    }
 }
-
-export default App;
