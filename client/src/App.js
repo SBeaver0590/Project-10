@@ -16,11 +16,12 @@ import PrivateRoute from './PrivateRoute';                //HOC import
 import UserSignIn from './Components/UserSignIn';
 import UserSignUp from './Components/UserSignUp';
 import UserSignOut from './Components/UserSignOut';
-import Forbidden from './Components/Forbidden';
-import NotFound from './Components/NotFound';
-import UnhandledError from './Components/UnhandledError';
+// import Forbidden from './Components/Forbidden';
+// import NotFound from './Components/NotFound';
+// import UnhandledError from './Components/UnhandledError';
 
-const HeaderWithContext = withContext(Header);               //Defining routes being used
+// Route definition
+const HeaderWithContext = withContext(Header);               
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignOutWithContext = withContext(UserSignOut);
@@ -29,23 +30,22 @@ const UpdateCourseWithContext = withContext(UpdateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
 
 
-export default class App extends Component {               //Stateless component function
+export default class App extends Component {              
 
     constructor() {
         super();
     }
 
-    componentDidMount() {  //Called after component to get data
+    componentDidMount() {  
 
     }
 
     render() {
-        
-        return (            //Routes set up for each task, private route for authentication, create & update courses
+        //Routes 
+        return (            
             <Router>  
                 <div>
                     <HeaderWithContext />
-
                     <Switch>
                         <Route exact path="/" component={Courses} />
                         <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
@@ -54,10 +54,10 @@ export default class App extends Component {               //Stateless component
                         <Route path="/signup" component={UserSignUpWithContext} />
                         <Route path="/signout" component={UserSignOutWithContext} />
                         <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
-                        <Route path="/forbidden" component={Forbidden} />
+                        {/* <Route path="/forbidden" component={Forbidden} />
                         <Route path="/error" component={UnhandledError} />
                         <Route path="/notfound" component={NotFound} /> 
-                        <Route component={NotFound} />
+                        <Route component={NotFound} /> */}
                     </Switch>
                 </div>
             </Router>
