@@ -6,19 +6,19 @@ import axios from 'axios';
 
 import {BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 
-import Header from './components/Header';
-import Courses from './components/Courses';
-import CreateCourse from './components/CreateCourse';
-import CourseDetail from './components/CourseDetail';
-import UpdateCourse from './components/UpdateCourse';
-import withContext from './Context';
+import Header from './Components/Header';
+import Courses from './Components/Courses';
+import CreateCourse from './Components/CreateCourse';
+import CourseDetail from './Components/CourseDetail';
+import UpdateCourse from './Components/UpdateCourse';
+import withContext from './context';
 import PrivateRoute from './PrivateRoute';                //HOC import
-import UserSignIn from './components/UserSignIn';
-import UserSignUp from './components/UserSignUp';
-import UserSignOut from './components/UserSignOut';
-import Forbidden from './components/Forbidden';
-import NotFound from './components/NotFound';
-import UnhandledError from './components/UnhandledError';
+import UserSignIn from './Components/UserSignIn';
+import UserSignUp from './Components/UserSignUp';
+import UserSignOut from './Components/UserSignOut';
+import Forbidden from './Components/Forbidden';
+import NotFound from './Components/NotFound';
+import UnhandledError from './Components/UnhandledError';
 
 const HeaderWithContext = withContext(Header);               //Defining routes being used
 const UserSignInWithContext = withContext(UserSignIn);
