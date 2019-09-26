@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
-import Data from './data';
+import Cookies from 'js-cookie';
+import Data from './Data';
 
 const Context = React.createContext(); 
 
 export class Provider extends Component {
 
+  state = {    //authUser return with cookie or return null
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null
+  };
+
   constructor() {
     super();
-    this.data = new Data();
+    this.data = new Data();    //Data object for access
   }
 
-  render() {
-
-    const value = {
-        data: this.data
+  render() {     
+    const { authenticatedUser } = this.state;
+    const value = {     //look for Value of AuthUser
+      authenticatedUser,
+      data: this.data,
+      actions: {
+        signIn: this.signIn,
+        signOut: this.signOut
+      },
     };
-
-    return (
+    return (         //Return context value/children
       <Context.Provider value={value}>
         {this.props.children}
       </Context.Provider>  
@@ -24,16 +33,35 @@ export class Provider extends Component {
   }
 
   
-  signIn = async () => {
+  signIn = async (emailAddress, password) => {   //Signin function
+    const user = await this.data.getUser(emailAddress, password);  //Data from Data.js
+    user.password = password;
 
+    if (user !== null) {    //If user is not null, return state of authUser
+      this.setState(() => {
+        return {
+          authenticatedUser: user
+        };
+      });
+     
+      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
+    }
+    return user;    //Return user signin
   }
 
-  signOut = () => {
-
+  signOut = () => {   //SignOut function
+    this.setState({ authenticatedUser: null });
+    Cookies.remove('authenticatedUser');
   }
 }
 
 export const Consumer = Context.Consumer;
+
+/**
+ * A higher-order component that wraps the provided component in a Context Consumer component.
+ * @param {class} Component - A React component.
+ * @returns {function} A higher-order component.
+ */
 
 export default function withContext(Component) {
   return function ContextComponent(props) {
