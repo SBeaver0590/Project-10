@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react';      //Imports added
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import ReactMarkDown from 'react-markdown';
+import ReactMarkDown from "react-markdown";
+export default class CourseDetail extends Component {   //Stateless component function
 
-//Stateful Class Component
-export default class CourseDetail extends Component {
     constructor() {
         super();
         this.state = {
@@ -12,56 +11,56 @@ export default class CourseDetail extends Component {
             errors: []
         };
     }
-    //After all elements are rendered correctly after being called by React to fetch data
-    //Each course must match course-detail
-    componentDidMount() {
+
+    componentDidMount() {            //Component mount, getting data from url              
+
         const { id } = this.props.match.params;
         axios.get(`http://localhost:5000/api/courses/${id}`)
             .then(response => {
                 this.setState({
                     data: response.data
                 });
+
             })
             .catch(error => {
                 console.log('Error fetching data', error);
-                if(error === 'Error: Request failed with the status code of 404') {
-                    this.props.history.push('/notFound');
-                    }else {
-                        this.props.history.push('/error')
+                if (error == 'Error: Request failed with status code 404') {
+                    this.props.history.push('/notfound');
                     }
-                
+                    else {
+                    this.props.history.push('/error');
+                    }
             });
-
     }
 
-    //Delete course if the user is authenticated and course belongs to user if not ERROR
-    delete = () => {
+    delete = () => {      //Delete course if authenticated user
         const { context } = this.props;
         const { id } = this.props.match.params;
         const authUser = context.authenticatedUser;
         if (authUser == null) {
-            this.setState({ errors: [{ message: "You must be logged in to update a course"}]});
+            this.setState({ errors: [{ message: "You have to be logged in to update a course"}] });
             return;
         }
+
         if (window.confirm('Are you sure you want to delete this course?')) {
-            context.data.deleteCourse(id, authUser.username, authUser.password)
-                .then(error => {
-                    if (error.status === 403 || error.status === 404) {
-                        this.setState({errors: [{message: error.message}]});
-                    }else{
-                        this.setState({errors: []});
-                        this.props.history.push('/');
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.props.history.push('/error');
-                });
+        context.data.deleteCourse(id, authUser.username, authUser.password)
+            .then(error => {          
+                if (error.status == 403 || error.status == 404) {
+                    this.setState({ errors: [{message: error.message}] });
+                }
+                else {
+                    this.setState({ errors: []});
+                    this.props.history.push('/');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                this.props.history.push('/error');
+            });
         }
     }
 
-    //Give data but only to an authenticated user with the ability to update and delete a course.
-    render() {
+    render() {          //Render data & auth user can update or delete course
         let course = {};
         let user = {};
         const { context } = this.props;
@@ -70,71 +69,71 @@ export default class CourseDetail extends Component {
             course = this.state.data;
             user = this.state.data.User;
         }
+
         return (
-            <div>
+          <div>
             <div className="actions--bar">
-             <div className="bounds">
-              <div className="grid-100">
-                  {authUser && authUser.id === user.id ?   
-                  <span>
-                      <Link className="button" to={`/courses/${course.id}/update/`} >Update Course</Link>
-                      <Link onClick={this.delete} className="button" to="#">Delete Course</Link>
-                      </span>
-                      :null
-                  }
-                      <Link
-                  className="button button-secondary" to="/" >Return to List</Link></div>
+                <div className="bounds">
+                        <div className="grid-100">
+                            {
+                                authUser && authUser.id == user.id ?   //Restricting user tenarary
+                            <span>
+                                <Link className="button" to={`/courses/${course.id}/update/`} >Update Course</Link>
+                                <Link onClick={this.delete} className="button" to="#" >Delete Course</Link>
+                                </span>
+                                :null
+                            }
+                                <Link className="button button-secondary" to="/" >Return to List</Link></div>
+                </div>
             </div>
+                <div className="bounds course--detail">
+                <ErrorsDisplay errors={this.state.errors} />
+                    <div className="grid-66">
+                        <div className="course--header">
+                            <h4 className="course--label">Course</h4>
+                            <h3 className="course--title">{course.title}</h3>
+                            <p>By {user.firstName} {user.lastName}</p>
+                        </div>
+                        <div className="course--description">
+                            <ReactMarkDown source={course.description} />
+                        </div>
+                    </div>
+                    <div className="grid-25 grid-right">
+                        <div className="course--stats">
+                            <ul className="course--stats--list">
+                                <li className="course--stats--list--item">
+                                    <h4>Estimated Time</h4>
+                                    <h3>{course.estimatedTime}</h3>
+                                </li>
+                                <li className="course--stats--list--item">
+                                    <h4>Materials Needed</h4>
+                                    <ul>
+                                        <ReactMarkDown source={course.materialsNeeded} />    
+                                    </ul>                   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
           </div>
-           <div className="bounds course--detail">
-            <ErrorsDisplay errors={this.state.errors} />  
-            <div className="grid-66">
-              <div className="course--header">
-                <h4 className="course--label">Course</h4>
-                <h3 className="course--title">{course.title}</h3>
-                <p>By {user.firstName} {user.lastName}</p>
-              </div>
-              <div class="course--description">
-                <ReactMarkDown source={course.description} />
-              </div>
-            </div>
-            <div className="grid-25 grid-right">
-              <div className="course--stats">
-                <ul className="course--stats--list">
-                  <li className="course--stats--list--item">
-                    <h4>Estimated Time</h4>
-                    <h3>{course.estimatedTime}</h3>
-                  </li>
-                  <li class="course--stats--list--item">
-                    <h4>Materials Needed</h4>
-                    <ul>
-                        <ReactMarkDown source={course.materialsNeeded} />
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        );
-    }
+        )
+    };
 }
 
-//Display errors
-function ErrorsDisplay({ errors }) {
+function ErrorsDisplay({ errors }) {       //Display/validate errors    & React Markdown added above
     let errorsDisplay = null;
     if (errors.length) {
         errorsDisplay = (
             <div>
-               <h2 className="validation--errors--label">Validation errors</h2>
-                <div className="validation-errors">
-                    <ul>
-                        {errors.map((error, i) => <li key={i}>{error.message}</li>)}
-                    </ul>
-               </div> 
-            </div> 
+                <h2 className="validation--errors--label">Validation errors</h2>
+                <div className="validation-errors">
+                    <ul>
+                        {errors.map((error, i) => <li key={i}>{error.message}</li>)}
+                    </ul>
+                </div>
+            </div>
         );
     }
+
     return errorsDisplay;
 }
-
