@@ -1,9 +1,10 @@
-import React, { Component } from 'react';      //Imports added
+import React, { Component } from 'react';      
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReactMarkDown from "react-markdown";
-export default class CourseDetail extends Component {   //Stateless component function
 
+ //Stateless component function
+export default class CourseDetail extends Component {  
     constructor() {
         super();
         this.state = {
@@ -12,15 +13,13 @@ export default class CourseDetail extends Component {   //Stateless component fu
         };
     }
 
-    componentDidMount() {            //Component mount, getting data from url              
-
+    componentDidMount() {            
         const { id } = this.props.match.params;
         axios.get(`http://localhost:5000/api/courses/${id}`)
             .then(response => {
                 this.setState({
                     data: response.data
                 });
-
             })
             .catch(error => {
                 console.log('Error fetching data', error);
@@ -33,7 +32,8 @@ export default class CourseDetail extends Component {   //Stateless component fu
             });
     }
 
-    delete = () => {      //Delete course if authenticated user
+    //Delete course if authenticated user
+    delete = () => {      
         const { context } = this.props;
         const { id } = this.props.match.params;
         const authUser = context.authenticatedUser;
@@ -60,7 +60,8 @@ export default class CourseDetail extends Component {   //Stateless component fu
         }
     }
 
-    render() {          //Render data & auth user can update or delete course
+    //Render data with authenticated user
+    render() {          
         let course = {};
         let user = {};
         const { context } = this.props;
@@ -76,7 +77,7 @@ export default class CourseDetail extends Component {   //Stateless component fu
                 <div className="bounds">
                         <div className="grid-100">
                             {
-                                authUser && authUser.id == user.id ?   //Restricting user tenarary
+                                authUser && authUser.id == user.id ?  
                             <span>
                                 <Link className="button" to={`/courses/${course.id}/update/`} >Update Course</Link>
                                 <Link onClick={this.delete} className="button" to="#" >Delete Course</Link>
@@ -120,7 +121,7 @@ export default class CourseDetail extends Component {   //Stateless component fu
     };
 }
 
-function ErrorsDisplay({ errors }) {       //Display/validate errors    & React Markdown added above
+function ErrorsDisplay({ errors }) {      
     let errorsDisplay = null;
     if (errors.length) {
         errorsDisplay = (
