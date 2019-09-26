@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import UpdateCourseForm from './UpdateCourseForm';
+import UpdateCourseForm from './UpdateCourse';
 
 export default class UpdateCourse extends Component {
     state = {
