@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 
-//Initialize Course
 module.exports = (sequelize) => {
   class Course extends Sequelize.Model {}
   Course.init({
@@ -13,31 +12,48 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notNull: {
+          msg: 'Please provide a course title'
+        },
+        notEmpty: {
+          msg: 'Please provide a course title',
+        }
       }
+    },
+    userId: {
+      type: Sequelize.INTEGER,  
     },
     description: {
       type: Sequelize.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: true
-      }
+        notNull: {
+          msg: 'Please provide a course description'
+        },
+        notEmpty: {
+          msg: 'Please provide a course description',
+         }
+       }
     },
     estimatedTime: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING, 
       allowNull: true,
     },
     materialsNeeded: {
       type: Sequelize.STRING,
       allowNull: true,
-    },
-    userId:  {
-      type: Sequelize.STRING,
-      allowNull: false,
     }
-  }, { sequelize });
-  Course.associate = function(models) {
-    Course.belongsTo(models.User);
+  },
+ 
+  { sequelize });
+
+  Course.associate = (models) => {
+    Course.belongsTo(models.User,{
+      foreignKey: 'userId',
+      targetKey: 'id'
+   });              // TODO Add associations.
+    
   };
+
   return Course;
 };

@@ -10,7 +10,7 @@ export default class CreateCourse extends Component {
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
-        errors: [],
+        errors: []
     }
 
     render() {
@@ -19,7 +19,7 @@ export default class CreateCourse extends Component {
             description,
             estimatedTime,
             materialsNeeded,
-            errors,
+            errors
         } = this.state;
 
         const { context } = this.props;
@@ -83,7 +83,7 @@ export default class CreateCourse extends Component {
             title,
             description,
             estimatedTime,
-            materialsNeeded,
+            materialsNeeded
         } = this.state;
 
             
@@ -91,7 +91,7 @@ export default class CreateCourse extends Component {
             title,
             description,
             estimatedTime,
-            materialsNeeded,
+            materialsNeeded
         };
                  //Auth user form context & validate errors
         const authUser = context.authenticatedUser;
