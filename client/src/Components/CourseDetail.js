@@ -43,7 +43,7 @@ export default class CourseDetail extends Component {
         }
 
         if (window.confirm('Are you sure you want to delete this course?')) {
-        context.data.deleteCourse(id, authUser.username, authUser.password)
+        context.data.deleteCourse(id, authUser.emailAddress, authUser.password)
             .then(error => {          
                 if (error.status === 403 || error.status === 404) {
                     this.setState({ errors: [{message: error.message}] });

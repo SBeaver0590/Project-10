@@ -98,7 +98,6 @@ export default class Data {   //Class uses fetch for functions to use API
 
   async deleteCourse(id, username, password) {   //Sending ID to the API
     const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {username, password} );
-    
     if (response.status === 204) {
       return [];
     }
