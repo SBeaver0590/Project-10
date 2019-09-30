@@ -21,9 +21,9 @@ import React from 'react';
     // For to Create Course
     return (                   
      <div className="bounds course--detail">
-       <h1>Create Course</h1>        
+       <h1>{submitButtonText}</h1>        
        <div>
-         <ErrorsDisplay errors={errors} />
+         <ErrorsDisplay errors={props.errors} />
          <form onSubmit={handleSubmit}>
          {elements()}
            <div className="grid-100 pad-bottom">
@@ -38,13 +38,13 @@ import React from 'react';
 
  function ErrorsDisplay({ errors }) {
    let errorsDisplay = null;
-   if (errors.length) {
+   if (errors.length > 0) {
      errorsDisplay = (
        <div>
          <h2 className="validation--errors--label">Validation errors</h2>
          <div className="validation-errors">
            <ul>
-             {errors.map((error, i) => <li key={i}>{error.message}</li>)}
+             {errors.map((error, i) => <li key={i}>{error}</li>)}
            </ul>
          </div>
        </div>

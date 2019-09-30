@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UpdateCourseForm from './UpdateCourse';
+import CourseForm from './CourseForm';
 
 export default class UpdateCourse extends Component {
     state = {
@@ -52,7 +52,7 @@ export default class UpdateCourse extends Component {
         } = this.state;
 
         return (                  
-            <UpdateCourseForm
+            <CourseForm
                 cancel={this.cancel}
                 errors={errors}
                 submit={this.submit}
@@ -126,12 +126,12 @@ export default class UpdateCourse extends Component {
             return;
         }
 
-        context.data.updateCourse(id, course, authUser.username, authUser.password)
-            .then(error => {
-                if (error.name === 'SequelizeValidationError') {
-                    this.setState({ errors: error.errors });              
-                } else if (error.status === 403) {
-                    this.setState({ errors: [{message: error.message}] })
+        context.data.updateCourse(id, course, authUser.emailAddress, authUser.password)
+            .then(errors => {
+                if (errors.length > 0) {
+                    this.setState({ errors: errors });              
+                } else if (errors.status === 403) {
+                    this.setState({ errors: [errors.message] })
                     this.props.history.push('/forbidden');
                 }
                 else {

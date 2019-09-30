@@ -72,7 +72,7 @@ export default class Data {   //Class uses fetch for functions to use API
     }
     else if (response.status === 403 || response.status ===400) {
       return response.json().then(data => {
-        return data.error;
+        return data.errors;
     });
   }
     else {
@@ -88,7 +88,7 @@ export default class Data {   //Class uses fetch for functions to use API
     }
     else if (response.status === 400) {
       return response.json().then(data => {
-        return data.error.errors;
+        return data.errors;
       });
     }
     else {

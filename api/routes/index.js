@@ -28,6 +28,7 @@ router.get('/users', authenticateUser, (req, res, next) => {
     try {
       const user = req.currentUser;
       res.status(200).json({
+        id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         emailAddress: user.emailAddress
@@ -158,11 +159,11 @@ router.post('/courses', authenticateUser, async (req, res, next) => {
 //Update a course and return no content
 router.put('/courses/:id', authenticateUser, async (req, res, next) => {
     try {
-      if (!req.body.title || !req.body.description) {
-        const error = new Error('Title and body are required.');
-        error.status = 400;
-        next(error);
-      } else {
+      // if (!req.body.title || !req.body.description) {
+      //   const error = new Error('Title and body are required.');
+      //   error.status = 400;
+      //   next(error);
+      // } else {
         const user = req.currentUser;
         const course = await Course.findByPk(req.params.id, {
           include: [ 
@@ -176,7 +177,7 @@ router.put('/courses/:id', authenticateUser, async (req, res, next) => {
         } else {
           res.status(403).end();
         }
-      }
+      // }
     } catch (error) {
       if (error.name === 'SequelizeValidationError') {
         error.status = 400;

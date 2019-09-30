@@ -13,7 +13,7 @@ const authenticateUser = async (req, res, next) => { // parse the user credentia
                 const authenticated = bcryptjs
                 .compareSync(credentials.pass, user.password);
                 if (authenticated) { //if matches store data and use middleware
-                    console.log(`Authentication successful for username: ${user.firstName}`);
+                    console.log(`Authentication successful for username: ${user.firstName} ${user.lastName}`);
                     const userDetails = user.toJSON();
                     const { id , firstName, lastName, emailAddress} = userDetails;
                     req.currentUser = {
