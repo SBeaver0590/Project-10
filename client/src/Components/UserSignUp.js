@@ -95,15 +95,14 @@ export default class UserSignUp extends Component {
       firstName,
       lastName,
       emailAddress,
-      password,
-      confirmPassword,
+      password
     } = this.state;
 
     // Create user
     let user = {};
-    if (password !== confirmPassword) {
+    if (user == null) {
       this.setState({
-        errors: ["password and confirm password do not match"]
+        errors: ["Please fill in the required information"]
       })
       return;
     }
@@ -116,11 +115,11 @@ export default class UserSignUp extends Component {
       };
   }
 
-  // const signUp = context.createUser;
-  //       if (signUp == null) {
-  //           this.setState({ errors: [{message: "Name email and password required to sign up."}] });
-  //           return;
-  //       }
+  const newUser = context.createUser;
+        if (newUser == null) {
+            this.setState({ errors: [{message: "Name email and password required to sign up."}] });
+            return;
+      }
 
     context.data.createUser({firstName, lastName, emailAddress, password})
       .then( errors => {
