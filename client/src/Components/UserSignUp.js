@@ -116,13 +116,19 @@ export default class UserSignUp extends Component {
       };
   }
 
-    context.data.createUser(user)
+  const signUp = context.createUser;
+        if (signUp == null) {
+            this.setState({ errors: [{message: "Name email and password required to sign up."}] });
+            return;
+        }
+
+    context.data.createUser(firstName, lastName, emailAddress, password, confirmPassword)
       .then( errors => {
         if (errors.length) {
           this.setState({ errors: errors });
         } else {
           this.setState({ errors: []});
-          context.actions.signIn(emailAddress, password)
+          context.actions.signUp(firstName, lastName, emailAddress, password, confirmPassword)
             .then(() => {
               this.props.history.push('/');    
             });
