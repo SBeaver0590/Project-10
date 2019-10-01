@@ -99,11 +99,11 @@ export default class UserSignUp extends Component {
       confirmPassword,
     } = this.state;
 
-    Create user
+    // Create user
     let user = {};
-    if (user == null) {
+    if (password !== confirmPassword) {
       this.setState({
-        errors: ["Please fill in required information"]
+        errors: ["password and confirm password do not match"]
       })
       return;
     }
@@ -116,19 +116,19 @@ export default class UserSignUp extends Component {
       };
   }
 
-  const newUser = context.createUser;
-        if (newUser == null) {
-            this.setState({ errors: [{message: "Name email and password required to sign up."}] });
-            return;
-        }
+  // const signUp = context.createUser;
+  //       if (signUp == null) {
+  //           this.setState({ errors: [{message: "Name email and password required to sign up."}] });
+  //           return;
+  //       }
 
-    context.data.createUser(firstName, lastName, emailAddress, password, confirmPassword)
+    context.data.createUser({firstName, lastName, emailAddress, password})
       .then( errors => {
         if (errors.length) {
           this.setState({ errors: errors });
         } else {
           this.setState({ errors: []});
-          context.actions.signUp(firstName, lastName, emailAddress, password, confirmPassword)
+          context.actions.signIn(emailAddress, password)
             .then(() => {
               this.props.history.push('/');    
             });
