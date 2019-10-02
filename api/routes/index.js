@@ -47,8 +47,9 @@ router.post('/users', async (req, res, next) => {
         await User.create(user);
         res.location('/').status(201).end();
       } else {
-        const error = new Error("Invalid user information provided");
+        const error = new Error("Validation Error");
         error.status = 400;
+        error.errors = ["Password is required."];
         next(error);
       }
     } catch (error) {
@@ -59,8 +60,9 @@ router.post('/users', async (req, res, next) => {
         console.error('Validation errors: ', errors)
         next(error);
       } else if (error.name === 'SequelizeUniqueConstraintError'){
-        const errors = new Error("Please provide a valid email address");
+        const errors = ["Email address already exists"];
         error.status = 400;
+        error.errors = errors;
         next(error);
       } else {
         next(error);
